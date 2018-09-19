@@ -105,3 +105,11 @@ Alipay.pay("signed pay info string").then(function(data){
                 });
 
 ```
+
+## 支付宝官方文档
+
+App支付-Android集成流程
+https://docs.open.alipay.com/204/105296/
+
+App支付-iOS集成流程
+https://docs.open.alipay.com/204/105295/
