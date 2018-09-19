@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.alipay.sdk.app.EnvUtils;
 import com.alipay.sdk.app.PayTask;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -65,9 +66,27 @@ public class AlipayModule extends ReactContextBaseJavaModule{
         super(reactContext);
     }
 
+    /**
+     * 设置支付环境
+     *
+     * @param env
+     *      "online" 线上环境
+     *      "sandbox" 沙箱环境
+     */
+    @ReactMethod
+    public void setEnv(final String env) {
+        boolean isSandbox = !TextUtils.isEmpty(env) && env.equals("sandbox");
+        if (isSandbox)
+            EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
+        else
+            EnvUtils.setEnv(EnvUtils.EnvEnum.ONLINE);
+    }
+
     @ReactMethod
     public void pay(final String payInfo,
                     final Promise promise) {
+        if (EnvUtils.isSandBox())
+            Toast.makeText(getCurrentActivity(), "当前为沙箱环境", Toast.LENGTH_SHORT).show();
 
         Runnable payRunnable = new Runnable() {
             @Override
